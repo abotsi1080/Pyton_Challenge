@@ -25,6 +25,7 @@ profit_loss = []
 ini_profit_loss = 0 # initital starting profit
 dates = []
 monthly_change = []
+prev_change = 867884
 
 # Open the csv file to read    
 with open(budget_data_csv) as csv_file:
@@ -45,14 +46,13 @@ with open(budget_data_csv) as csv_file:
         count += 1
         net_total += float(row[1])
         current = float(row[1])
+        net_change = current - prev_change
         average_changes += float(row[1])
         total_profit = total_profit + int(row[1])
         final_profit_loss = int(row[1])
 
         #calculating monthly profits and losses
-        m_changes_profit_loss = final_profit_loss - ini_profit_loss
-        monthly_change.append(m_changes_profit_loss)
-        #total_change_profits = total_change_profits + m_changes_profit_loss
+        monthly_change.append(net_change)
         total_change_profits = sum(monthly_change)
         ini_profit_loss = final_profit_loss
         average_changes = (total_change_profits/count)
@@ -60,6 +60,7 @@ with open(budget_data_csv) as csv_file:
         greatest_decrease = min(monthly_change)
         greatest_increase_date = dates[monthly_change.index(greatest_increase)]
         greatest_decrease_date = dates[monthly_change.index(greatest_decrease)]
+        prev_change = current
     # Generating the output
     output = os.path.join("Analysis/financialanalysis.txt")
 
@@ -78,8 +79,8 @@ with open(budget_data_csv) as csv_file:
     print(f"Financial Analysis Results")
     print(f"---------------------------------------------------------------")
     print(f"Total Number of Months:", str(count))
-    print(f"Net Total Amount of 'Profit/Losses':", "$" + str(net_total))
-    print(f"Average Change in 'Profits/Losses':", "$" + str(average_changes))
-    print(f"The Greatest Increase in Profits:", str(greatest_increase_date), str(greatest_increase))
-    print(f"The Greatest Decrease in Profits:", str(greatest_decrease_date), str(greatest_decrease))
+    print(f"Net Total Amount of 'Profit/Losses':" + " $" + str(net_total))
+    print(f"Average Change in 'Profits/Losses':" + " $" + str(average_changes))
+    print(f"The Greatest Increase in Profits: " + str(greatest_increase_date) + " $" + str(greatest_increase))
+    print(f"The Greatest Decrease in Profits: " + str(greatest_decrease_date) + " $" + str(greatest_decrease))
     print(f"---------------------------------------------------------------")
