@@ -55,7 +55,7 @@ with open(budget_data_csv) as csv_file:
         monthly_change.append(net_change)
         total_change_profits = sum(monthly_change)
         ini_profit_loss = final_profit_loss
-        average_changes = (total_change_profits/count)
+        average_changes = round((total_change_profits/count), 2)
         greatest_increase = max(monthly_change)
         greatest_decrease = min(monthly_change)
         greatest_increase_date = dates[monthly_change.index(greatest_increase)]
